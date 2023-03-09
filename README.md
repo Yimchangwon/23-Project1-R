@@ -10,3 +10,5 @@
 ### 3. 번역 프로그램 - deepL 파파고보다 4배 정확한 번역해줌
 ### 4. 커밋 내용 작성에 첫줄은 제목이라 50 char 까지만 사용가능 (엔터 두번 입력 후 내용은 무한으로 사용가능)
 
+### Git hub로 push 하기
+* 1. source tree 이동 후 SOURCE CONTROL 문구 옆 케밥 메뉴 클릭 -> Push 선택 -> 아직 Repository(저장소) 없다는 팝업 발생 -> Add Remote 클릭 -> Github에 만들겠냐는 문구 표시 -> 원하는 reposite 선택
