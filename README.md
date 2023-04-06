@@ -1,4 +1,99 @@
 # 임창원
+## 2023-04-06
+### 지난 시간 매트릭스 이어서
+### 행과 열의 이름 붙이기 (matrix)
+- rownames : [1,] 대신 행의 이름을 붙임
+- colnames : [,1] 대신 열의 이름을 붙임
+
+### 데이터 프레임 만들기
+- 예제
+- - city <- c("Seoul", "Tokyo", "Washington")
+- - rank <- c(1,3,2) 
+- - city.info <- data.frame(city, rank)
+- - city.info
+
+### iris 데이터셋 
+- 150 그루의 붓꽃에 대해 4개 분야의 측정 데이터와 품종 정보를 결합하여 만든 데이터셋
+- - 예제) iris
+- - Sepal.Length : 꽃받침의 길이 (숫자형)
+- - Sepal.Width : 꽃받침의 폭 (숫자형)
+- - Species : 붓꽃의 품종 (문자열)
+
+### 데이터 셋의 기본정보를 보여주는 함수 (iris 데이터 프레임을 예시로 사용)
+- dim(iris) : 행과 열의 개수보이기
+- nrow(iris) : 행의 개수
+- ncol(iris) : 열의 개수
+- colnames(iris) : 열 이름 보이기, names() 함수와 결과는 동일함
+- head(iris) : 데이터셋의 앞부분 일부 보기
+- tail(iris) : 데이터셋의 뒷부분 일부 보기
+- str(iris) : 데이터셋 요약정보보기
+- levels(iris[,5]) : 5열의 데이터를 중복없이 보기
+- table(iris[, "Species"]) : 품종(5열)의 종류별 행의 개수 세기
+- colSums(iris[,-5]) : 5번째열을 제외한 열의 합계 (행 데이터는 row로 바꾸면됨)
+- colMeans(iris[,-5]) : 5번째열을 제외한 열별 평균 (행 데이터는 row로 바꾸면됨)
+- - 5번째 열을 빼는 이유는 iris 데이터 프레임의 5번째 열이 숫자형이 아니기 때문
+- t(매트릭스변수) : 행과 열을 변환
+- subset(iris, Species='setosa') : iris 데이터 프레임에서 Species가 setosa인 데이터만 출력
+- subset(iris, Sepal.Length>5.0 & Sepal.Width>4.0) : Sepal.Length값이 5.0 이상이고 Sepal.Width 값이 4.0 이상인 데이터만 출력
+
+### 매트릭스와 데이터 프레임의 자료구조 확인
+- class(iris) : iris 데이터셋의 자료구조 확인 (반환값은 data.frame)
+- class (state.x77) state.x77 데이터셋의 자료구조 확인 (반환값은 matrix)
+- is.matrix(iris) : 매트릭스 형태인지 확인하는 함수 (반환값은 True/False)
+- is.data.frame(iris) : 데이터 프레임 형태인지 확인하는 함수 (반환값은 True/False)
+
+### 매드릭스와 데이터프레임의 자료구조 변환하기
+- st <- data.frame(state.x77) : matrix 형태의 state.x77을 data.frame 형태로 강제 형변환
+- st2 <- as.matrix(iris[,1:4]) : data.frame 형태의 iris를 matrix 형태로 강제 형변환 (5열은 문자형 자료형이기 때문에 매트릭스로 변환 불가)
+
+### min, max 함수를 이용하여 최대 최소값을 뽑아 출력하는 예제
+young <-min(age)
+
+old<- max(age)
+
+cat('가장 젊은 사람의 나이는 ', young, '이고, 가장 나이든 사람의 나이는 ', old, '입니다. \n')
+
+출력 결과 : 가장 젊은 사람의 나이는  17 이고, 가장 나이든 사람의 나이는  67 입니다.
+
+### svDialogs 라이브러리 설치 및 사용하여 사용자가 입력한 금액의 세금 구하여 출력하기
+install.packages('svDialogs')
+
+library(svDialogs)
+
+user.input <- dlgInput('Input income')$res     // 사용자가 값을 입력하는 부분 다이얼로그에 Input income 출력됨
+
+user.input
+
+income <- as.numeric(user.input)
+
+income
+
+tax <- income * 0.05
+
+cat('세금은 ', tax, '원 입니다.')
+
+실행결과 : 세금은  1000 원 입니다.
+
+### print() 함수와 cat() 함수
+- print() 함수 : 하나의 값을 출력할 때, 데이터 프레임과 같은 2차원 자료구조를 출력할 때, 출력 후 자동 줄바꿈
+- cat() : 여러개의 값을 연결해서 출력할 때 (벡터는 출력되나 2차원 자료구조는 출력 불가)
+
+### 작업 폴더
+- getwd() : 현재 작업 폴더 알아내는 함수
+- setwd('C:/Rworks') : 해당 경로로 작업디렉토리를 변경하는 함수
+
+## csv 파일 읽기와 쓰기
+### csv 파일 읽기
+- R에서 데이터 분석을 위해 가장 많이 사용하는 파일 형태는 .csv 파일임
+- csv 파일 읽기 예제
+setwd('C:/Rworks') // csv 파일이 있는 경로로 작업 폴더 변경
+air <- read.csv('airquality.csv', header=T) // csv 파일 읽어서 변수에 저장
+### csv 파일 쓰기
+- csv 파일 쓰기 예제
+write.csv(iris, 'my_iris.csv', row.names=F) // 행 번호 표시안함 옵션 
+
+
+----------------------------------------------------------------------------------
 ## 2023-03-30
 - ### 배열 중 1차원 배열에서 list 와 2차원 배열의 Data Frame은 여러 자료형을 섞어서 배열 정의가 가능하다.
 
