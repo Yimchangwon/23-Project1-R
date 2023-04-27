@@ -61,10 +61,72 @@ dist <- cars[,2]
 # col='green' : 막대 색상
 hist(dist,main='Histogram for 제동거리',xlab = '제동거리',ylab='빈도수',border='blue', col='green', las=2, breaks=5)
 ```
+### histogram 함수의 실행 내역 확인
+``` R
+# histogram의 세부 내역 확인하기 (변수에 대입해서 실행)
+result <- hist(dist,main='Histogram for 제동거리',breaks=5)
+result
+```
 
+### 다중 그래프 표시
+``` R
+# 다중 그래프
+#화면 분할 (4개의 그래프가 표시되도록 화면 분할 mfrow 2행 2열)
+par(mfrow=c(2,2), mar=c(3,3,4,2)) 
+# 그래프 1
+hist(iris$Sepal.Length, main='Sepal.Length', col='orange')
 
+# 그래프 2
+barplot(table(mtcars$cyl), main='mtcars', col=c('red','green','blue'))
 
+# 그래프 3
+barplot(table(mtcars$gear), main='mtcars', col=rainbow(3), radius=2)
 
+# 그래프 4 (pie는 원그래프를 그려준다.)
+pie(table(mtcars$cyl), main='mtcars', col=topo.colors(3), radius = 2)
+
+# 화면 분할 취소 (mfrow 1행 1열) 
+# -> 화면 분할 취소 후 위 코드 실행 시 그래프 1개만 표시됨
+par(mfrow=c(1,1), mar=c(5,4,4,2)+.1) 
+```
+
+### 그래프 파워포인트 저장
+- 그래프를 파일에 저장 (복사 후 붙여넣기)
+- 그래프 표시 위 메뉴중 Zoom 클릭 -> 마우스 우클릭 -> copy image -> 파워포인트 실행 -> 마우스 우클릭 -> 붙여넣기 옵션 -> 그림 선택
+
+### R에서 바로 차트 이미지 저장하기
+- 그래프 표시 위 메뉴중 Zoom 클릭 -> 마우스 우클릭 -> Save image as... 클릭 -> 파일명.jpg(확장자명) 으로 저장
+
+### 원 그래프 작성
+``` R
+favorite <- c('WINTER','SUMMER','SPRING','SUMMER','SUMMER','FALL','FALL','SUMMER','SPRING','SPRING')
+ds <- table(favorite)
+# radius = 1 : 원의 크기 지정
+pie(ds, main='선호 계절', radius = 1)
+```
+
+### 3D 원 그래프 작성
+``` R
+# 라이브러리 인스톨 및 사용
+install.packages('plotrix')
+library(plotrix)
+# labels=names(ds) : 파이별 이름 지정
+# labelcex = 1.0 : 레이블의 폰트 크기
+# explode=0.1 파이 간 간격
+pie3D(ds, main='선호 계절', labels=names(ds), labelcex = 1.0, explode=0.1, radius = 1.5, col = rainbow(5))
+```
+
+### 선 그래프 작성
+``` R 
+month <- 1:12
+late <- c(5,8,7,9,4,6,12,13,8,6,6,4)
+# month : x축 data
+# late : y축 data
+# type='l' : 그래프의 종류 선택 (알파벳임)
+# lty=1 : 선의 종류 (숫자임)
+# lwd=1 : 선의 굵기 (숫자임)
+plot(month, late, main='지각생 통계', type='l', lty=1,lwd=1, xlab='Month', ylab='Late cnt')
+```
 ----------------------------------------------------------------------------------
 ## 2023-04-13
 ### 시험내용
