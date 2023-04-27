@@ -1,4 +1,71 @@
 # 임창원
+## 2023-04-27
+### 테이블 생성하기
+- 벡터 변수 생성 및 초기화 후 `테이블변수<-table(벡터변수)` 명령어를 이용
+
+### 막대그래프 표시하기
+- barplot(테이블명, main='막대그래프 제목')
+- barplot(테이블명, main='막대그래프 제목',col=막대그래프 표시색상(ex:blue))
+    - 색상 이름 검색하는 함수 : colors()
+    - 색상을 임의로 지정해주는 함수
+        - barplot(테이블명, main='막대그래프 제목',col=rainbow(4))
+- 막대그래프 별 색상을 별도로 지정하는 방법
+    - barplot(테이블명, main='막대그래프 제목',col=c('yello','blue','red','green'))
+- 막대그래프에 색인 넣기(x축과 y축)
+    - barplot(ds,main='Favorite Season', col=c('yellow','blue','red','green'), xlab = '계절', ylab = '빈도수')
+- 막대그래프 수평방향으로 생성하기 (horiz=TRUE)
+    - barplot(ds,main='Favorite Season', col=rainbow(4), xlab = '계절', ylab = '빈도수',horiz=TRUE)
+- 각 막대그래프의 막대 별 이름 넣기
+    - barplot(ds,main='Favorite Season', col=rainbow(4), xlab = '계절', ylab = '빈도수',names=c('1번막대이름','2번막대이름','3번막대이름'))
+- 각 막대그래프의 막대 별 이름 수평/수직 표기하기 
+    - 수직표시 : barplot(ds,main='Favorite Season', col=rainbow(4), xlab = '계절', ylab = '빈도수', names=c('가을','봄','여름','겨울'), las=2)
+    - 수평표시 : barplot(ds,main='Favorite Season', col=rainbow(4), xlab = '계절', ylab = '빈도수', names=c('가을','봄','여름','겨울'), las=1)
+    - x,y축 전부 바꾸기 : barplot(ds,main='Favorite Season', col=rainbow(4), xlab = '계절', ylab = '빈도수', names=c('가을','봄','여름','겨울'), las=3)
+
+### 중첩 막대프래프 생성
+     * 여러 벡터 변수 생성 및 초기화
+        - age.A <- c(13709,10974,7979,5000,4250)
+        - age.B <- c(17540,29701,36209,33947,24487)
+        - age.C <- c(991,2195,5366,12980,19007)
+     * ds 변수에 해당 벡터 변수들 대입(행을 기준으로 배치)
+        - ds <- rbind(age.A, age.B, age.C)
+     * 막대 별 이름 정의
+        - colnames(ds) <- c('1970','1990','2010','2030','2050')
+     * 중첩 그래프 표시 (그래프 이름 = 인구 추정)
+        - barplot(ds, main='인구 추정')
+    
+### 중첩 그래프의 나열 (beside 파라미터)
+    * barplot(ds, main='인구 추정', col=rainbow(10), beside = T)
+
+    * 범례의 위치를 지정
+        - barplot(ds, main='인구 추정', col=rainbow(10), beside = T, legend.text=T, args.legend = list(x='topright', bty='n', inset=c(0,0)))
+
+        - x='topright' : 범례를 출력할 기본위치를 그래프 출력 영역의 위쪽의 오른쪽에 표시
+        - bty='n' : 범례의 테두리를 표시하지 않음 (표시하기 위해서는 'o')
+        - insetc(-0.25,0) : 범례를 x축과 y축 방향으로 얼마나 치우치게 나타낼지 정함 (x축기준, y축기준)
+
+### 범례의 내용 바꾸기
+    * 범례의 내용 바꾸기 (legend.text=c('범례1이름','범례2이름','범례3이름'))
+    
+``` R
+barplot(ds, main='인구 추정', col=rainbow(10), beside = T, args.legend = list(x='topright', bty='o', inset=c(0,0)), 
+        legend.text=c('0~14세','15~64세','65세 이상'))
+```
+### histogram 작성
+``` R
+head(cars)
+# 자동차의 제동거리는 cars 데이터 프레임의 2열에 있음
+dist <- cars[,2]
+# break=5 : 막대개수 조절 (6개 나옴)
+# border='blue' : 막대 테두리 색상
+# col='green' : 막대 색상
+hist(dist,main='Histogram for 제동거리',xlab = '제동거리',ylab='빈도수',border='blue', col='green', las=2, breaks=5)
+```
+
+
+
+
+----------------------------------------------------------------------------------
 ## 2023-04-13
 ### 시험내용
 - 라이브러리 인스톨과 사용법만 알면 큰 문제 없을거임
