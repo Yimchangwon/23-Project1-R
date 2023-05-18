@@ -1,4 +1,155 @@
 # 임창원
+## 2023-05-18
+### 1. 벡터의 정렬
+- sort() 함수 : 값의 크기에 따라 값들을 정렬하는 함수
+``` R
+v1<-c(1,7,6,8,4,2,3)
+v1
+# sort 함수를 이용하여 오름차순 정렬
+v1<-sort(v1)
+v1
+v2<-sort(v1,decreasing = 1)
+v2
+
+# sort 함수를 이용한 문자열 정렬 (기본 오름차순)
+name <-c('정대일', '강재구','신현석','홍길동')
+sort(name)
+name
+# 내림차순 정렬
+sort(name,decreasing = T)
+```
+
+- order() 함수 : 값의 크기에 따라 값들의 인덱스를 정렬하는 함수(숫자의 형태로 정렬함)
+```R
+# order 함수를 이용한 인덱스 정렬 (숫자로 결과값 출력됨)
+order(name)
+# 내림차순 정렬 (숫자로 결과값 출력됨)
+order(name,decreasing = T)
+# order 함수를 이용해 인덱스 정렬 후 idx 벡터에 대입
+idx<-order(name)
+# idx 벡터에 대입된 정렬된 인덱스로 name 출력
+name[idx]
+```
+
+### 2. 매트릭스와 데이터프레임의 정렬
+- 특정 열의 값들을 기준으로 행을 재배열하는 방법
+- iris 데이터셋에서 꽃잎의 길이(Sepal.Length)를 기준으로 행을 재정렬하는 예
+``` R
+# iris 데이터셋에서 꽃잎의 길이(Sepal.Length)를 기준으로 행을 재정렬하는 예
+head(iris)
+# iris 데이터셋에서 꽃잎의 길이(Sepal.Length)를 정렬 (인덱스 정렬)
+order(iris$Sepal.Length)  
+# iris 데이터셋에서 꽃잎의 길이(Sepal.Length)를 기준으로 행을 재정렬 (오름차순)
+iris[order(iris$Sepal.Length),] 
+# iris 데이터셋에서 꽃잎의 길이(Sepal.Length)를 기준으로 행을 재정렬 (내림차순)
+iris[order(iris$Sepal.Length, decreasing = T),] 
+# iris 데이터셋에서 꽃잎의 길이(Sepal.Length)를 기준으로 행을 재정렬(오름차순)하여 iris.new에 저장
+iris.new <- iris[order(iris$Sepal.Length),]
+# 상위 데이터 출력
+head(iris.new)
+```
+- iris 데이터셋에 order() 함수를 사용하면 실제 iris 데이터셋의 정보가 바뀌는건 아님 그래서 위 예제에서 iris.new라는 변수에 해당 데이터를 대입하여 자유롭게 사용 가능함
+
+## 샘플링과 조합이란?
+### 1. 샘플링
+- 샘플링 : 주어진 값들에서 임의의 개수만큼 값을 추출하는 작업
+    - 여러 번 값을 추출할 때
+        - 한 번 뽑은 값은 제외한 뒤 새로운 값을 추출하는 방식 -> 비복원 추출
+        - 뽑았던 값을 다시 포함시켜 새로운 값을 추출하는 방식 -> 복원 추출
+    - 샘플링이 필요한 때 : 데이터셋이 너무 커 분석에 시간이 많이 걸리는 경우, 일부의 데이터만 추출하여 대략의 결과를 미리 확인
+- 샘플링 예제(비복원 추출, 복원식 추출은 replace = TRUE로 파라미터 전달 -> T, F로 전달 가능)
+``` R
+# 1부터 100까지 x변수에 대입
+x<-1:100
+# y에 x를 샘플링한 결과를 저장 (10개의 데이터를 랜덤하게 추출, 비복원 추출)
+y<- sample(x, size=10, replace = FALSE)
+y
+
+# idx 변수에 iris 행수만큼을 대상으로 50개의 데이터 샘플링, 비복원추출
+idx <- sample(1:nrow(iris), size=50, replace=F)
+# iris.50 변수에 iris의 idx에 해당하는 50개의 행출력
+iris.50 <- iris[idx,]
+# iris.50의 행과 열의 개수 확인
+dim(iris.50)
+# 상위 데이터 추출
+head(iris.50)
+```
+- 임의 추출을 하되 재현가능한 결과가 필요한 경우
+``` R
+# sample() 함수 실행 직전에 set.seed() 함수를 먼저 실행
+sample(1:20, size=5)
+sample(1:20, size=5)
+sample(1:20, size=5)
+set.seed(100)
+sample(1:20, size=5)
+set.seed(100)
+sample(1:20, size=5)
+```
+
+### 2. 조합
+- 조합 : 주어진 데이터 값 중에서 몇 개씩 짝을 지어 추출하는 작업으로, combn() 함수를 사용함
+``` R
+#combn 예제 (조건에 맞는 모든 경우의 수를 출력한다고 생각하면 됨)
+combn(1:5, 3) # 1~5에서 3개를 뽑는 조합(하나의 열이 하나의 조합을 나타냄)
+
+# 문자열 combn 예제
+x<-c("red","green","blue","black","white")
+com <- combn(x,2) # 다섯개의 색깔 중 2개를 뽑는 조합
+# 조합을 행과 열이아닌 단순출력
+for(i in 1:ncol(com)) {
+  cat(com[,i], '\n')
+}
+```
+
+### 3. 집계
+- 데이터를 집계
+``` R
+# iris의 품종별 꽃잎 꽃받침의 폭과 길이의 평균
+agg <- aggregate(iris[,-5], by=list(품종=iris$Species), FUN=mean)
+agg
+
+# iris의 품종별 꽃잎 꽃받침의 폭과 길이의 표준편차
+agg <- aggregate(iris[,-5], by=list(품종=iris$Species), FUN=sd)
+agg
+
+# mtcars 데이터셋에서 cyl과 vs를 기준으로 다른 열들의 최댓값을 구하기
+head(mtcars)
+agg<- aggregate(mtcars, by=list(cyl=mtcars$cyl, vs=mtcars$vs), FUN=max)
+agg
+```
+
+## 고급 그래프 작성하기
+### 1. 나무지도 알아보기
+- 데이터 분석 과정에서 중요한 기술 중 하나가 데이터 시각화임
+    - 데이터가 저장하고 있는 정보나 의미를 보다 쉽게 파악 가능
+    - 시각화 결과로부터 중요한 영감을 얻기도 함
+- 나무지도
+    - 사각 타일의 형태로 표현, 데이터의 정보를 타일의 크기와 색깔로 나타내며, treemap 설치 후 사용가능함
+``` R
+# 나무지도
+install.packages('treemap')
+library(treemap)
+# 나무지도를 그릴때는 데이터 프레임 형태인 데이터여야 함
+data(GNI2014)
+head(GNI2014)
+# GNI2014 데이터를 바탕으로 파라미터가 순차적으로 의미하는 것들
+# 타일들이 대륙(continent), 국가(iso3)의 형태로 표시, 타일의 크기, 타일의 컬러, 타일 컬러링 방법, 나무지도 제목
+# 타일의 면적은 인구수와 비례하고 타일의 색깔은 GNI(소득)를 의미
+# 소득이 높을수록 진한 초록색, 소득이 낮을수록 노란색에 가까움
+treemap(GNI2014, index=c('continent', 'iso3'), vSize='population', vColor = 'GNI', type ='value', 
+        title="World's GNI")
+
+
+# state.x77 데이터의 나무지도 작성
+# 매트릭스를 데이터프레임으로 변환
+st<-data.frame(state.x77)
+# 주의 이름 열 stname을 추가
+st<-data.frame(st, stname=rownames(st))
+treemap(st, index=c('stname'), vSize='Area', vColor = 'Income', type='value', title='USA states area and income')
+```
+
+### 2. 방사형차트
+----------------------------------------------------------------------------------
 ## 2023-05-11
 ### 1. 두 변수의 상관관계
 - Pressure 데이터셋을 통해 온도와 기압의 관련성 분석
