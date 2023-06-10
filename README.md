@@ -58,17 +58,55 @@ radarchart(ds,                           # 데이터프레임
   - seq(0,100,25)는 0, 25, 50, 75 100을 의미
   - 매개변수 seq에서 지정한 눈금수와 개수가 맞도록 지정
 
-### 2. GGPLOT2 란
+### 2. 막대그래프와 히스토그램
 
 ```R
 library(ggplot2)
 
-ggplot(iris, aes(x=Sepal.Width, fill=Species, color=Species)) +
-  geom_histogram(binwidth = 0.5, position='dodge') +
-  theme(legend.position='top')
-```
+month <- c(1,2,3,4,5,6)
+rain  <- c(55,50,45,50,60,70)
+df <- data.frame(month,rain)           # 그래프를 작성할 대상 데이터
+df
 
+ggplot(df, aes(x=month,y=rain)) +      # 그래프를 작성할 데이터 지정
+  geom_bar(stat='identity',            # 막대그래프의 형태 지정  
+           width=0.7,                  # 막대의 폭 지정
+           fill='steelblue')           # 막대의 색 지정
+```
+<li>ggplot() 매개변수
+
+- df : 그래프를 작성할 데이터가 저장되어 있는 데이터프레임을 지정, 매트릭스는 데이터프레임으로 변환하여 입력
+- aes(x=month, y=rain) : aes() 함수를 통해 그래프를 그리기 위한 x축, y축 열을 지정
+  - x=month : x축을 구성하는 열이 month임을 지정
+  - y=rain : y축을 구성하는 열이 rain임을 지정
+
+<li> geom_bar() 매개변수
+- stat='identity' : 막대의 높이는 ggplot() 함수에서 y축에 해당하는 열(여기서는 rain)에 의해 결정되도록 지정
+- width=0.7 :L 막대의 폭을 지정
+- fill='steelblue' : 막대의 내부 색을 지정
+
+```R
+# [코드 12-7]에 이어서
+ggplot(df, aes(x=month,y=rain)) +      # 그래프를 그릴 데이터 지정
+  geom_bar(stat='identity',            # 막대 높이는 y축에 해당하는 열의 값  
+           width=0.7,                  # 막대의 폭 지정
+           fill='steelblue') +         # 막대의 색 지정
+  ggtitle('월별 강수량') +              # 그래프의 제목 지정
+  theme(plot.title = element_text(size=25, face='bold', colour='steelblue')) +
+  labs(x='월',y='강수량') +            # 그래프의 x, y축 레이블 지정
+  coord_flip()                         # 그래프를 가로 방향으로 출력
+``` 
+  
 ## 텍스트 마이닝
+```R
+install.packages('wordcloud')
+library(wordcloud)
+
+word = c("네이버", "카카오", "라인", "쿠팡", "우아한형제들")
+frequency = c(4561, 7823, 4537, 7531, 5645)
+
+wordcloud(word, frequency, colors = rainbow(length(word)))
+```
 
 ## 2023-05-18
 ### 1. 벡터의 정렬
